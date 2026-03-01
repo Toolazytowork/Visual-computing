@@ -50,6 +50,7 @@ We provide the theoretical convergence rate of our algorithm and demonstrate rem
    - PyTorch 1.11.0
    - Torchvision 0.12.0
    - [hydra-core](https://hydra.cc/) 1.3.2
+   - coloredlogs
    ~~~
    conda env create -f FedACG_environment.yaml -n FedACG
    conda activate fedACG
@@ -150,6 +151,37 @@ We provide the theoretical convergence rate of our algorithm and demonstrate rem
     ~~~
     python federated_train.py client=Decorr server=base exp_name=FedDecorr dataset=cifar100 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 wandb=True 
     ~~~
+
+### ☁️ Google Colab Quickstart
+
+To run this code with our new novelties on Google Colab (using a T4 GPU), follow these exact steps:
+
+1. **Clone the repository and install dependencies:**
+   ```bash
+   !git clone https://github.com/Toolazytowork/Visual-computing.git
+   %cd Visual-computing
+   !pip install hydra-core omegaconf wandb torch torchvision torchmetrics tabulate torchinfo imageio colorlog hydra-colorlog scikit-learn umap-learn coloredlogs
+   ```
+
+2. **Login to Weights & Biases (Optional for logging):**
+   ```bash
+   !wandb login
+   ```
+
+3. **Run the Baseline Method:**
+   ```bash
+   !python federated_train.py server=FedACG client=ACG exp_name=ColabBaseline dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   ```
+
+4. **Run Adaptive Momentum Novelty:**
+   ```bash
+   !python federated_train.py server=FedACG_Adaptive client=ACG exp_name=ColabAdaptive dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   ```
+
+5. **Run Stale Loss Selection Novelty:**
+   ```bash
+   !python federated_train.py server=ServerStale client=ACG exp_name=ColabStale dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   ```
  
 
 ## 📝 Citation 
