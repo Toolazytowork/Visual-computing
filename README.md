@@ -170,17 +170,17 @@ To run this code with our new novelties on Google Colab (using a T4 GPU), follow
 
 3. **Run the Baseline Method:**
    ```bash
-   !python federated_train.py server=FedACG client=ACG exp_name=ColabBaseline dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   !python federated_train.py server=FedACG client=ACG exp_name=ColabBaseline dataset=cifar10 trainer.num_clients=25 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 wandb=True
    ```
 
 4. **Run Adaptive Momentum Novelty:**
    ```bash
-   !python federated_train.py server=FedACG_Adaptive client=ACG exp_name=ColabAdaptive dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   !python federated_train.py server=FedACG_Adaptive client=ACG exp_name=ColabAdaptive dataset=cifar10 trainer.num_clients=25 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 wandb=True
    ```
 
 5. **Run Stale Loss Selection Novelty:**
    ```bash
-   !python federated_train.py server=ServerStale client=ACG exp_name=ColabStale dataset=cifar10 trainer.num_clients=100 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 num_workers=0 multiprocessing=False wandb=True
+   !python federated_train.py server=ServerStale client=ACG exp_name=ColabStale dataset=cifar10 trainer.num_clients=25 split.alpha=0.3 trainer.participation_rate=0.05 batch_size=50 trainer.global_rounds=100 wandb=True
    ```
  
 
