@@ -1,0 +1,7 @@
+## Server ##
+type: ServerAdaptive
+momentum: 0.9         # Start at 0.9
+momentum_min: 0.1     # Allow it to drop super low to stop bad updates
+momentum_max: 0.99    # Allow it to boost very high on good updates
+adaptive_alpha: 0.5   # Make it extremely sensitive to client updates
+FedACG: True

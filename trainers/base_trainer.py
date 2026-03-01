@@ -135,7 +135,7 @@ class Trainer():
             client.setup(**setup_inputs)
             # Local Training
             local_model, local_loss_dict = client.local_train(global_epoch=task['global_epoch'])
-            result_queue.put((local_model, local_loss_dict))
+            result_queue.put((task['client_idx'], local_model, local_loss_dict))
             if not self.args.multiprocessing:
                 break
 
@@ -165,7 +165,7 @@ class Trainer():
             
             # Select clients
             if self.participation_rate < 1.:
-                selected_client_ids = np.random.choice(range(self.num_clients), M, replace=False)
+                selected_client_ids = self.server.select_clients(M)
             else:
                 selected_client_ids = range(len(self.clients))
             logger.info(f"Global epoch {epoch}, Selected client : {selected_client_ids}")
@@ -200,7 +200,9 @@ class Trainer():
                     task_queue.put(task_queue_input)
                     self.local_update(self.device, task_queue, result_queue)
 
-                    local_state_dict, local_loss_dict = result_queue.get()
+                    q_client_idx, local_state_dict, local_loss_dict = result_queue.get()
+                    loss_metric_name = f'loss/{self.args.dataset.name}'
+                    self.server.update_loss(q_client_idx, local_loss_dict.get(loss_metric_name, float('inf')))
                     for loss_key in local_loss_dict:
                         local_loss_dicts[loss_key].append(local_loss_dict[loss_key])
 
@@ -215,7 +217,9 @@ class Trainer():
                 for _ in range(len(selected_client_ids)):
                     # Retrieve results from the queue
                     result = result_queue.get()
-                    local_state_dict, local_loss_dict = result
+                    q_client_idx, local_state_dict, local_loss_dict = result
+                    loss_metric_name = f'loss/{self.args.dataset.name}'
+                    self.server.update_loss(q_client_idx, local_loss_dict.get(loss_metric_name, float('inf')))
                     for loss_key in local_loss_dict:
                         local_loss_dicts[loss_key].append(local_loss_dict[loss_key])
 

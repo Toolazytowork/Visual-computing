@@ -1,0 +1,3 @@
+type: ServerStale
+momentum: 0.1
+FedACG: True

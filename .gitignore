@@ -5,3 +5,11 @@ checkpoints/**
 */.ipynb_checkpoints/
 __pycache__/
 
+fedacg_env/
+data/
+client_data/
+outputs/
+.DS_Store
+outputs/**
+checkpoints/**
+

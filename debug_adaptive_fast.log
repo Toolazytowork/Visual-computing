@@ -1,0 +1,26 @@
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+/home/shivansh/Desktop/Visual ccomputing /FedACG/fedacg_env/lib/python3.13/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+DebugAdaptiveFast
+device cpu
+num of classes of  CIFAR10  is :  10
+=> Creating model 'ResNet18_base, pretrained=False'
+=> Getting client type 'Client'
+=> Getting server type 'ServerAdaptive'
+=> Creating evaler 'Evaler'
+=> Creating trainer 'Trainer'
+[32m02-20 00:11:12[0m [34mtrainers.base_trainer 80436[0m [30mExp path : checkpoints/CIFAR10/dirichlet0.3/DebugAdaptiveFast[0m
+[32m02-20 00:11:12[0m [34mtrainers.base_trainer 80436[0m [30mTrainer: <class 'trainers.base_trainer.Trainer'>, client: <class 'clients.base_client.Client'>, server: <class 'servers.base.ServerAdaptive'>, evaler: <class 'evalers.base_evaler.Evaler'>[0m
+wandb: WARNING `wandb.require('service')` is a no-op as it is now the default behavior.
+[32m02-20 00:11:17[0m [34mtrainers.base_trainer 80436[0m [30mGlobal epoch 0, Selected client : range(0, 2)[0m
+[32m02-20 00:11:26[0m [34mclients.base_client 80436[0m [30mClass counts : [5000 4594 4467 3075 2722 2495 1339 1302    6][0m
+/home/shivansh/Desktop/Visual ccomputing /FedACG/clients/base_client.py:132: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = GradScaler()
+/home/shivansh/Desktop/Visual ccomputing /FedACG/fedacg_env/lib/python3.13/site-packages/torch/cuda/amp/grad_scaler.py:31: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  super().__init__(
+/home/shivansh/Desktop/Visual ccomputing /FedACG/fedacg_env/lib/python3.13/site-packages/torch/utils/data/dataloader.py:775: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  super().__init__(loader)
+/home/shivansh/Desktop/Visual ccomputing /FedACG/clients/base_client.py:150: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=self.args.use_amp):
+/home/shivansh/Desktop/Visual ccomputing /FedACG/fedacg_env/lib/python3.13/site-packages/torch/cuda/amp/autocast_mode.py:54: UserWarning: CUDA is not available or torch_xla is imported. Disabling autocast.
+  super().__init__(
