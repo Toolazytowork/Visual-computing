@@ -43,9 +43,42 @@ def select_clients(self, num_select):
     return selected_client_ids
 ```
 
+## 3. Mathematical Formulation
+
+Let $\mathcal{N} = \{1, 2, \dots, N\}$ denote the index set of all $N$ clients in the federated network.
+At global communication round $t$, the server selects a subset of clients $\mathcal{S}^t \subset \mathcal{N}$ where $|\mathcal{S}^t| = K$. 
+
+### The Objective Function
+In standard Federated Learning (FedAvg), the global objective is to minimize the aggregated empirical loss uniformly across all clients:
+
+$$ \min_{w} F(w) = \sum_{k=1}^{N} p_k F_k(w) $$
+
+where $F_k(w)$ is the local expected loss of client $k$ over its data distribution $\mathcal{D}_k$, and $p_k \ge 0$ is the weight of client $k$.
+
+### Uniform Random Selection (Baseline Problem)
+Under standard random sampling without replacement, the probability $P_k^t$ of client $k$ being selected at round $t$ is uniform:
+$$ P_k^t = \frac{K}{N}, \quad \forall k \in \mathcal{N} $$
+This sampling strategy ignores the current instantaneous gradient $\nabla F_k(w^t)$ or local loss topology, treating clients that have perfectly learned the model identically to clients that are struggling.
+
+### Stale Loss-Aware Deterministic Selection
+Let $L_k^\tau$ denote the **stale local loss** recorded for client $k$ at round $\tau \le t$, which represents the last round client $k$ actively participated in training. We define the stale loss as:
+
+$$ L_k^\tau = \frac{1}{|\mathcal{D}_k|} \sum_{\xi \in \mathcal{D}_k} \ell(w^\tau; \xi) $$
+
+Instead of sampling uniformly, ServerStale deterministically selects the top $K$ clients bounded by the highest stale losses from their last recorded participation:
+
+$$ \mathcal{S}^t = \args \max_{\mathcal{S} \subset \mathcal{N}, |\mathcal{S}|=K} \sum_{k \in \mathcal{S}} L_k^\tau $$
+
+### Cold-Start Initialization Barrier
+At $t=0$, no stale loss $L_k^0$ exists for any client. To bypass exploration-exploitation starvation, we enforce a cold-start barrier defined mathematically as:
+
+$$ L_k^0 = \infty, \quad \forall k \in \mathcal{N} $$
+
+This ensures that for any unselected client $j$, $L_j^0 > L_k^\tau$ is strictly true for any participating client $k$, forcing $100\%$ exhaustion of the client pool before any client is redundantly selected.
+
 ---
 
-## 3. Anticipated Benefits and Evaluation
+## 4. Anticipated Benefits and Evaluation
 
 ### Reduced Wasted Communication
 By avoiding clients that have already converged on their local datasets (exhibiting low stale loss), the framework drastically reduces the number of "wasted" communication rounds. Every byte transferred in a communication round is guaranteed to address active weaknesses in the global model.
